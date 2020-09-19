@@ -1,0 +1,145 @@
+
+  .comments
+  {
+      max-height: 200px;
+      overflow: scroll;
+      display: flex;  flex-direction: column
+  }
+
+
+.comments::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .comments::-webkit-scrollbar-thumb {
+    background: rgb(119, 82, 82); 
+    border-radius: 30px;
+    scroll-snap-align: end;
+
+  }
+
+  .likesComments
+  {
+      display: flex;
+      justify-content: space-between;
+      font-size: 15px;
+      
+  }
+  .likes{
+      margin-right: 20px;
+  }
+  
+  .likes:hover ul.list-categories{
+    max-height: inherit;
+    opacity: 1;
+  }
+
+  .list-categories{
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    max-height: 0px;
+    opacity: 0;
+    overflow: hidden;
+    transition: opacity 300ms ease;
+  }
+  
+.post_comments {
+  margin-top: 0px
+}
+
+.profilePicMini
+{
+  width: 50px; height: 50px;border-radius: 80px 
+}
+.svg
+{
+
+  width: 2em;
+  height:2em
+}
+
+.totalComments
+{
+  display: none;
+}
+
+.pictureFooter
+{
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  bottom: 55px;
+  color: rgb(252, 251, 250);
+
+}
+
+.postFooter
+{
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  color: rgb(12, 12, 12);
+
+}
+
+.center {
+  margin: auto;
+  padding: 10px;
+}
+
+
+.input-with-icon {
+  position: relative;
+  height: 3.2rem;
+}
+
+.input-with-icon .form-control {
+    height: 100%;
+    width: 100%;
+    padding-right: 3.65rem;
+    box-sizing: border-box;
+}
+
+.input-with-icon .icon {
+  position: absolute;
+  
+  /* These are set relative to the height of the input box to bound the box neatly inside. This is aesthetic to me but you may change the dimensions of course. */
+  right: 0.3rem;
+  top: 0.3rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 0.3rem;
+  
+  /* content in the icon div is centered, without bootstrap or font-awesome you may wish to add your own text in the span */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+
+
+
+
+
+
+.flex-container>div:first-child {
+   width:60px; /*fixed width*/
+   flex-shrink:0; /*avoid shriking*/
+}
+.flex-container>div:nth-child(2) {
+  flex-grow:1; /*can grow*/
+  margin-right: 5px;
+}
+.flex-container>div:nth-child(3) {
+  flex-grow:1;  /*can grow*/
+  max-width:200px; /*max-width*/
+}
+
+.time
+{
+  position: relative;
+  margin-left: 55px;
+  margin-top:-20px
+}

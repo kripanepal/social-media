@@ -1,0 +1,53 @@
+.cards {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    min-height: 400px;
+}
+
+.card-footer {
+    margin-top: 20px
+}
+
+.toast {
+    position: fixed;
+    top: 8px;
+    right: 16px;
+    z-index: 999999999999999;
+}
+
+.Success {
+    background-color: rgb(95, 216, 38);
+}
+
+.Error {
+    background-color: rgb(247, 165, 165);
+}
+
+.cards{
+    min-height: fit-content;
+}
+.profilePicMini
+{
+  width: 50px; height: 50px;border-radius: 80px 
+}
+.searchResults
+{
+   
+ 
+    margin: auto;
+
+   position: fixed;
+right: 50px;    
+  
+}
+.holder
+{
+    width: 100vw;
+    position: fixed;
+    z-index: 99;
+
+    align-items: end;
+    display: flex;
+    justify-content: end;
+}
