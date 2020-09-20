@@ -77,7 +77,7 @@ const Messages = () => {
       .then(result => {
         console.log(result)
       })
-setMessages[...messages,toSend]
+setMessages([...messages,toSend])
   }
 
   const showNames = () => {
