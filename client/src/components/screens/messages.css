@@ -1,0 +1,61 @@
+.grid-container {
+  display: grid;
+  grid-column-gap: 10px;
+  grid-template-columns: 25% 60%;
+}
+
+.grid-container>div {
+  text-align: center;
+}
+
+.self {
+  text-align: right;
+}
+.other {
+  text-align: left;
+}
+.selfMessage {
+  background-color: rgb(105, 168, 226);
+  color: rgb(15, 15, 15);
+  border-radius: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+font-size: x-large;
+}
+
+
+.otherMessage {
+  background-color: rgb(193, 195, 197);
+
+  color: rgb(15, 15, 15);
+  border-radius: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 100%;
+  font-size: x-large;
+
+}
+
+.messageForm {
+  text-align: right;
+  border: aqua 2px solid;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: auto;
+
+
+}
+
+.messageInput
+{
+width: 100%;
+}
+.messageHolder
+{
+  margin-top:10px;
+  height: 680px;
+  display: flex;
+  flex-direction: column;
+
+}

@@ -10,6 +10,10 @@ import UserProfile from './components/screens/UserProfile'
 import Reset from './components/screens/reset'
 import UpdatePassword from './components/screens/createPassword'
 import Post from './components/screens/post'
+import Messages from './components/screens/messages'
+import io from "socket.io-client";
+
+
 import FollowedPosts from './components/screens/followedPosts'
 import { initialState, reducer } from './reducers/userReducer'
 import { BrowserRouter, Route, useHistory, Switch, Link } from 'react-router-dom'
@@ -55,17 +59,24 @@ const Routing = () => {
       <Route path='/post/:postid'>
         <Post />
       </Route>
+      <Route path='/messages'>
+        <Messages />
+      </Route>
     </Switch>
   )
 }
 function App() {
+  const ENDPOINT = 'localhost:5000';
+  let socket;
+  socket = io(ENDPOINT);
+
   const [state, dispatch] = useReducer(reducer, initialState)
   return (
     <UserContext.Provider value={{ state, dispatch }}>
       <div className="App">
         
         <BrowserRouter>
-          <div class = 'contain'>
+          <div className = 'contain'>
             <NavBar />
             <Routing />
           </div>

@@ -45,7 +45,7 @@ const NavBar = () => {
           setResult(result);
         });
     } else {
-        console.log('here')
+
       setResult([]);
     }
   };
@@ -87,6 +87,7 @@ const NavBar = () => {
         <>
           <Nav.Link href="/profile">Profile</Nav.Link>
           <Nav.Link href="/followedposts">Followed users</Nav.Link>
+          <Nav.Link href="/messages">Messages</Nav.Link>
           <Nav.Link href="/createpost">Create a post</Nav.Link>
 
           <Nav.Link
