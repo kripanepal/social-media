@@ -11,7 +11,6 @@ import Reset from './components/screens/reset'
 import UpdatePassword from './components/screens/createPassword'
 import Post from './components/screens/post'
 import Messages from './components/screens/messages'
-import io from "socket.io-client";
 
 
 import FollowedPosts from './components/screens/followedPosts'
@@ -66,9 +65,6 @@ const Routing = () => {
   )
 }
 function App() {
-  const ENDPOINT = 'localhost:5000';
-  let socket;
-  socket = io(ENDPOINT);
 
   const [state, dispatch] = useReducer(reducer, initialState)
   return (

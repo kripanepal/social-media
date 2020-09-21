@@ -9,19 +9,17 @@ const requireLogin = require("../middleware/requireLogin");
 router.post("/savemessage", requireLogin, (req, res) => {
 
     const { toId, toSend } = req.body;
-    console.log(toSend)
     const from = req.user;
     const to = toId
 
     Messages.findOneAndUpdate({
-        users: { $in: [from, to] }
+        users: { $all: [from, to] }
     }, {
         $push: { user_messages: { text: toSend, from, to, date: new Date() } },
 
     })
 
         .then(result => {
-            console.log(result)
             if (!result) {
                 const message = new Messages({ users: [from, to], user_messages: { text: toSend, from, to, date: new Date() } })
                 message.save()
@@ -36,7 +34,7 @@ router.post("/fetchmessages", requireLogin, (req, res) => {
         .then(user1 => {
             User.findById(req.user)
                 .then(user2 => {
-                    Messages.find({ users: { $in: [user1, user2] } })
+                    Messages.find({ users: { $all: [user1, user2] } })
                     .select("user_messages")
                     .select("-_id")
                         .then(result => res.json(result))
