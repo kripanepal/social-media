@@ -12,7 +12,6 @@ import UpdatePassword from "./components/screens/createPassword";
 import Post from "./components/screens/post";
 import Messages from "./components/screens/messages";
 import IndividualChat from "./components/screens/individualChats";
-
 import FollowedPosts from "./components/screens/followedPosts";
 import { initialState, reducer } from "./reducers/userReducer";
 import {
@@ -24,7 +23,7 @@ import {
 } from "react-router-dom";
 import io from "socket.io-client";
 
-const ENDPOINT = process.env.port;
+const ENDPOINT = `https://instatest12.herokuapp.com/:${80}`;
 
 export const UserContext = createContext();
 
@@ -77,7 +76,7 @@ const Routing = () => {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
-    const socket = io(ENDPOINT);
+    var socket = io.connect(window.location.hostname);
     dispatch({ type: "SOCKET", payload: socket });
   }, [ENDPOINT]);
 if(state&&state.socket)

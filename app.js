@@ -17,7 +17,7 @@ app.use(require("./routes/auth"));
 app.use(require("./routes/posts"));
 app.use(require("./routes/messages"));
 app.use(require("./routes/user"));
- require('./socket/socket').socketHandler(io)
+require('./socket/socket').socketHandler(io)
 
 mongoose.connect(
   mongouri,

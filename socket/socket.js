@@ -1,6 +1,8 @@
 const socketHandler =(io)=>
 {
     var users = [];
+ 
+
     io.on("connect", (socket) => {
       console.log("a user connected ");
       socket.on("register", (data) => {
