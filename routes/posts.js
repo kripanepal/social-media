@@ -12,9 +12,7 @@ const requireLogin = require('../middleware/requireLogin')
 
 router.post('/createpost', requireLogin, (req, res) => {
     const { title } = req.body
-    console.log(title,req.body.picUrl)
     if (!title && !req.body.picUrl) {
-        console.log('yah')
         return res.status(422).json({ error: "missing fields for post" })
     }
     req.user.password = undefined
@@ -46,7 +44,6 @@ router.get('/allpost', requireLogin, (req, res) => {
 })
 
 router.get('/followedPost', requireLogin, (req, res) => {
-    console.log(req.user.followings)
     Post.find({postedBy:{$in:req.user.followings}})
     .populate("postedBy", "_id name profilePictureUrl")
     .populate('comments.postedBy', "_id name")
@@ -55,7 +52,6 @@ router.get('/followedPost', requireLogin, (req, res) => {
 
 
         .then(posts => {
-            console.log(posts)
             res.json({ posts })
         })
         .catch(err => {

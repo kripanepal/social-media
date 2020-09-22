@@ -32,22 +32,32 @@ mongoose.connect(
 var users = [];
 
 io.on("connect", (socket) => {
-  console.log("a user connected");
-  socket.on("new", (data, callback) => {
-    if (data in users) {
-      callback(false);
+  console.log("a user connected ");
+
+  socket.on("register", (data) => {
+    console.log("registereing");
+    if (users[data.sender]) {
+      users[data.sender].push(socket.id);
     } else {
-      callback(true);
-      socket.name = data._id;
-      users[socket.name] = socket;
+      users[data.sender] = [socket.id];
+    }
+    console.log(users);
+    console.log("registering to ", socket.id);
+  });
+  socket.on("message", function (data) {
+    if(users[data.to])
+    {
+      
+      users[data.to].forEach(element => {
+        socket.to(element).emit('message',{message:data.message,to:data.to,from:data.from})
+        
+      });
     }
   });
 
-  socket.on("msg", (data, callback) => {
-  });
-
   socket.on("disconnect", (socket) => {
-    console.log("a user disconnected");
+    console.log(users);
+    console.log("a user disconnected of id", socket.id);
   });
 });
 

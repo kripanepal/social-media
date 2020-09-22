@@ -17,5 +17,11 @@ export const reducer = (state, action) => {
                 followings:action.payload.followings
             }
         }    
+        if(action.type=="SOCKET"){
+            return {
+                ...state,
+                socket:action.payload
+            }
+        }    
     return state
 }

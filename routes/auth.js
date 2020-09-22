@@ -52,7 +52,6 @@ router.post('/resetpassword', (req, res) => {
 
 router.post('/updatepassword', (req, res) => {
   const {newPassword,token} = req.body
-console.log(token)
   User.findOne({resetToken:token,tokenExpire:{$gt:Date.now()}})
   .then(user =>
     {
@@ -138,12 +137,10 @@ router.post("/signin", (req, res) => {
     User.findOne({ email: emailAddress })
       .then((user) => {
         if (user) {
-          console.log('here')
           bcrypt.compare(password, user.password).then((doMatch) => {
             if (doMatch) {
               const token = jwt.sign({ _id: user._id }, jwt_secret);
               const { name, email, _id, followings, followers, profilePictureUrl } = user
-              console.log(user)
               res.json({ token, user: { _id, name, email, followings, followers, profilePictureUrl } });
             } else {
               return res.status(422).json({

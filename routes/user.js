@@ -9,7 +9,6 @@ const User = mongoose.model("User");
 const requireLogin = require("../middleware/requireLogin");
 
 router.get("/user/:id", requireLogin, (req, res) => {
-  console.log(req.params.id, '=====')
 
   User.findOne({ _id: req.params.id })
     .select("-password")
@@ -110,7 +109,6 @@ router.put("/updateprofilepicture", requireLogin, (req, res) => {
 
 router.get("/search/:name", requireLogin, (req, res) => {
   const name = (req.params.name)
-  console.log(name)
   User.find({ name: { $regex: name, $options: "i" } })
     .select(["name", 'profilePictureUrl'])
     .then(result => res.json(result))
@@ -121,7 +119,6 @@ router.get("/search/:name", requireLogin, (req, res) => {
 
 router.post("/generatenames", requireLogin, (req, res) => {
   const ids = (req.body.ids)
-  console.log(req.body)
   User.find({
     _id: {
       $in: ids
