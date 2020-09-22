@@ -17,6 +17,7 @@ app.use(require("./routes/auth"));
 app.use(require("./routes/posts"));
 app.use(require("./routes/messages"));
 app.use(require("./routes/user"));
+ require('./socket/socket').socketHandler(io)
 
 mongoose.connect(
   mongouri,
@@ -28,38 +29,6 @@ mongoose.connect(
     }
   }
 );
-
-var users = [];
-
-io.on("connect", (socket) => {
-  console.log("a user connected ");
-
-  socket.on("register", (data) => {
-    console.log("registereing");
-    if (users[data.sender]) {
-      users[data.sender].push(socket.id);
-    } else {
-      users[data.sender] = [socket.id];
-    }
-    console.log(users);
-    console.log("registering to ", socket.id);
-  });
-  socket.on("message", function (data) {
-    if(users[data.to])
-    {
-      
-      users[data.to].forEach(element => {
-        socket.to(element).emit('message',{message:data.message,to:data.to,from:data.from})
-        
-      });
-    }
-  });
-
-  socket.on("disconnect", (socket) => {
-    console.log(users);
-    console.log("a user disconnected of id", socket.id);
-  });
-});
 
 if (process.env.NODE_ENV == "production") {
   app.use(express.static("client/build"));

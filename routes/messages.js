@@ -11,8 +11,7 @@ router.post("/savemessage", requireLogin, (req, res) => {
     const { toId, toSend } = req.body;
     const from = req.user;
     const to = toId
-    console.log(from,'==========',to)
-console.log('here')
+    console.log(toSend)
     Messages.findOneAndUpdate({
         users: { $all: [from, to] }
     }, {
@@ -25,6 +24,10 @@ console.log('here')
             if (!result) {
                 const message = new Messages({ users: [from, to], user_messages: { text: toSend, from, to, date: new Date() } })
                 message.save()
+                .then(result=>
+                    {
+                        console.log(result)
+                    })
             }
 
 

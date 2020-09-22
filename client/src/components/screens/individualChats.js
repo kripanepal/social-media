@@ -4,6 +4,7 @@ import { Link, useParams, useHistory, Redirect } from "react-router-dom";
 import { Navbar, Nav, Card, FormControl, Button, Form } from "react-bootstrap";
 import "./messages.css";
 import Messages from "./messages";
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 const ClickOutHandler = require("react-onclickout");
 
@@ -18,6 +19,23 @@ const IndividualChats = () => {
   console.log(userid);
 
   useEffect(() => {
+
+    console.log('load again')
+    if (state) {
+      state.socket.on('message', function (data) {
+        var receivedText = data.message;
+        console.log(receivedText)
+        setMessages((pre) => {
+          const newMessage = {
+            date: Date.now(),
+            from: data.from,
+            to: data.to,
+            text: receivedText,
+          };
+          return [...pre, newMessage];
+        });
+      });
+    }
     fetch("/fetchMessages", {
       method: "post",
       headers: {
@@ -36,7 +54,7 @@ const IndividualChats = () => {
           setMessages([]);
         }
       });
-  }, [userid]);
+  }, [userid, state]);
 
   const send = (e) => {
     const toSend = textRef.current.value;
@@ -53,18 +71,16 @@ const IndividualChats = () => {
         toSend,
       }),
     })
-      .then((res) => res.json())
-      .then((result) => {});
-    setMessages((pre) => {
-      const newMessage = {
-        date: Date.now(),
-        from: state._id,
-        to: focusedUser,
-        text: toSend,
-      };
-      return [...pre, newMessage];
-    });
-    state.socket.emit("message", { to: userid, message: toSend , from:state._id});
+      setMessages((pre) => {
+        const newMessage = {
+          date: Date.now(),
+          from: state._id,
+          to: focusedUser,
+          text: toSend,
+        };
+        return [...pre, newMessage];
+      });
+    state.socket.emit("message", { to: userid, message: toSend, from: state._id });
 
   };
 
@@ -89,17 +105,25 @@ const IndividualChats = () => {
     }
 
     return (
-      <div className="messageHolder">
-        {texts}
-
-        <form onSubmit={(e) => send(e)} className="messageForm">
-          <input type="text" ref={textRef} className="messageInput" />
-          {"  "}
-          <Button varient="primary" type="submit">
-            Send
+      <>
+      <ScrollToBottom
+      >
+        <div className="messageHolder">
+          {texts}
+        </div>
+      </ScrollToBottom>
+      <div className = 'sendDiv'>
+      <form onSubmit={(e) => send(e)} className="messageForm">
+            <input type="text" ref={textRef} className="messageInput" />
+            {"  "}
+            <Button varient="primary" type="submit">
+              Send
           </Button>
-        </form>
+          </form>
       </div>
+     
+      </>
+
     );
   };
 
@@ -107,20 +131,6 @@ const IndividualChats = () => {
     return "loading";
   }
 
-  if(state){
-    state.socket.on('message',function(data){
-        var receivedText = data.message;
-    alert(receivedText)
-        setMessages((pre) => {
-            const newMessage = {
-              date: Date.now(),
-              from: data.from,
-              to: data.to,
-              text: receivedText,
-            };
-            return [...pre, newMessage];
-          });    });
-  }
   return (
     <div class="grid-container">
       <Messages />

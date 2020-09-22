@@ -24,7 +24,7 @@ import {
 } from "react-router-dom";
 import io from "socket.io-client";
 
-const ENDPOINT = "localhost:5000";
+const ENDPOINT = process.env.port;
 
 export const UserContext = createContext();
 
@@ -80,7 +80,10 @@ function App() {
     const socket = io(ENDPOINT);
     dispatch({ type: "SOCKET", payload: socket });
   }, [ENDPOINT]);
-
+if(state&&state.socket)
+{
+  state.socket.emit('register',{sender:state._id})
+}
   return (
     <UserContext.Provider value={{ state, dispatch }}>
       <div className="App">

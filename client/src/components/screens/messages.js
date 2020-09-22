@@ -10,7 +10,6 @@ const Messages = () => {
 
   useEffect(() => {
     if (state) {
-      state.socket.emit('register',{sender:state._id})
       const followings = state.followings;
       fetch("/generatenames", {
         method: "post",

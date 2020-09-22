@@ -26,7 +26,6 @@ font-size: x-large;
 
 .otherMessage {
   background-color: rgb(193, 195, 197);
-
   color: rgb(15, 15, 15);
   border-radius: 25px;
   padding-left: 10px;
@@ -37,25 +36,26 @@ font-size: x-large;
 }
 
 .messageForm {
-  text-align: right;
+
   border: aqua 2px solid;
   display: flex;
-  flex-direction: row;
+  /* text-align: right; */
+  /* flex-direction: row;
   justify-content: center;
-  margin-top: auto;
-
-
+  margin-top: auto; */
 }
 
 .messageInput
 {
 width: 100%;
 }
+
 .messageHolder
 {
   margin-top:10px;
-  height: 680px;
   display: flex;
   flex-direction: column;
+  max-height: 80vh;
+  min-height: 78vh
 
 }
