@@ -52,4 +52,21 @@ router.post("/fetchmessages", requireLogin, (req, res) => {
 
 });
 
+router.post("/fetchmessages", requireLogin, (req, res) => {
+
+    User.findById(req.body.id)
+        .then(user1 => {
+            User.findById(req.user)
+                .then(user2 => {
+                    Messages.find({ users: { $all: [user1, user2] } })
+                    .select("user_messages")
+                    .select("-_id")
+                        .then(result => res.json(result))
+                })
+        })
+
+
+
+});
+
 module.exports = router

@@ -23,8 +23,7 @@ import {
 } from "react-router-dom";
 import io from "socket.io-client";
 
-const ENDPOINT = `https://instatest12.herokuapp.com/:${80}`;
-
+const ENDPOINT = "localhost:5000";
 export const UserContext = createContext();
 
 const Routing = () => {
@@ -77,6 +76,7 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     var socket = io.connect(window.location.hostname);
+    //var socket = io(ENDPOINT);
     dispatch({ type: "SOCKET", payload: socket });
   }, [ENDPOINT]);
 if(state&&state.socket)

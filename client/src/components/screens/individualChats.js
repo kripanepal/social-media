@@ -5,26 +5,22 @@ import { Navbar, Nav, Card, FormControl, Button, Form } from "react-bootstrap";
 import "./messages.css";
 import Messages from "./messages";
 import ScrollToBottom from 'react-scroll-to-bottom';
-
 const ClickOutHandler = require("react-onclickout");
 
 const IndividualChats = () => {
   const { state, dispatch } = useContext(UserContext);
-  const [results, setResults] = useState([]);
+  const [userInfo, setUserInfo] = useState([]);
   const [messages, setMessages] = useState([]);
   const [focusedUser, setFocusedUser] = useState();
   const history = useHistory();
   const textRef = useRef();
   const { userid } = useParams();
-  console.log(userid);
 
   useEffect(() => {
 
-    console.log('load again')
     if (state) {
       state.socket.on('message', function (data) {
         var receivedText = data.message;
-        console.log(receivedText)
         setMessages((pre) => {
           const newMessage = {
             date: Date.now(),
@@ -36,6 +32,7 @@ const IndividualChats = () => {
         });
       });
     }
+
     fetch("/fetchMessages", {
       method: "post",
       headers: {
@@ -71,27 +68,55 @@ const IndividualChats = () => {
         toSend,
       }),
     })
-      setMessages((pre) => {
-        const newMessage = {
-          date: Date.now(),
-          from: state._id,
-          to: focusedUser,
-          text: toSend,
-        };
-        return [...pre, newMessage];
-      });
+    setMessages((pre) => {
+      const newMessage = {
+        date: Date.now(),
+        from: state._id,
+        to: focusedUser,
+        text: toSend,
+      };
+      return [...pre, newMessage];
+    });
     state.socket.emit("message", { to: userid, message: toSend, from: state._id });
 
   };
+  useEffect(() => {
 
+
+    fetch("/generatenames", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        ids: userid,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setUserInfo(result[0]);
+      });
+  }, [userid]
+  )
+
+
+  
   const showMessages = () => {
     var texts = "";
     if (messages) {
       texts = messages.map((each) => {
         return (
           <div>
+
             <div className={each.from === state._id ? "self" : "other"}>
+              {each.from === state._id ?
+                null :
+                <img src={userInfo.profilePictureUrl} width='40px' style={{ borderRadius: '50%' }} />
+              }
+              {' '}
               <span
+
                 className={
                   each.from === state._id ? "selfMessage" : "otherMessage"
                 }
@@ -106,24 +131,31 @@ const IndividualChats = () => {
 
     return (
       <>
-      <ScrollToBottom
-      >
-        <div className="messageHolder">
-          {texts}
-        </div>
-      </ScrollToBottom>
-      <div className = 'sendDiv'>
-      <form onSubmit={(e) => send(e)} className="messageForm">
+        <div class="header">                
+        <img src={userInfo.profilePictureUrl} width='60px' style={{ borderRadius: '50%' }} />
+        {" "}
+        <Link to = {'/profile/'+userid}>
+        {userInfo.name}
+        </Link>
+          </div>
+
+
+        <ScrollToBottom
+        >
+          <div className="messageHolder">
+            {texts}
+          </div>
+        </ScrollToBottom>
+        <div className='sendDiv'>
+          <form onSubmit={(e) => send(e)} className="messageForm">
             <input type="text" ref={textRef} className="messageInput" />
             {"  "}
             <Button varient="primary" type="submit">
               Send
           </Button>
           </form>
-      </div>
-     
+        </div>
       </>
-
     );
   };
 
@@ -132,10 +164,14 @@ const IndividualChats = () => {
   }
 
   return (
+    <>
+
     <div class="grid-container">
-      <Messages />
-      <div>{showMessages()}</div>
+      <div className = 'sidebarDiv'><Messages /></div>
+      
+      <div style = {{marginLeft:'10px'}}>{showMessages()}</div>
     </div>
+    </>
   );
 };
 

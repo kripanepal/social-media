@@ -1,0 +1,30 @@
+.sidebar {
+
+    height: 40px;
+    display: flex;
+
+  }
+
+  .nav-menu {
+    background-color: #313235;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    transition: 850ms;
+  }
+  
+  .nav-menu.active {
+    left: 0;
+    transition: 350ms;
+    z-index: 9999;
+  }
+  
+  .nav-text {
+    list-style: none;
+  }
+  .navbar-toggle {
+    background-color: #060b26;
+
+  }
+  

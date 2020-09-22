@@ -23,6 +23,8 @@
     "nodemailer": "^6.4.11",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "nodemon": "^2.0.4",
+    "react-bootstrap-sidebar": "0.0.1",
+    "react-sidebar": "^3.0.2",
     "socket.io": "^2.3.0"
   }
 }

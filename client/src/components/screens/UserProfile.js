@@ -13,7 +13,6 @@ const Profile = () => {
     const { userid } = useParams()
     const [showFollow, setShowFollow] = useState(true)
     const [loading, setLoading] = useState(true);
-    console.log(userid)
 
 
     useEffect(() => {
@@ -44,7 +43,6 @@ const Profile = () => {
             })
         }).then(res => res.json())
             .then(result => {
-                console.log(result)
                 dispatch({ type: "UPDATE", payload: { followings: result.followings, followers: result.followers } })
                 localStorage.setItem("user", JSON.stringify(result))
                 setData((prevState) => {
@@ -62,7 +60,6 @@ const Profile = () => {
             })
     }
     const unfollowUser = () => {
-        console.log('doner')
         fetch('/unfollow', {
             method: "put",
             headers: {
@@ -122,8 +119,9 @@ const Profile = () => {
                                 >
                                     Follow
         </Button>}{" "}
-        {state.followings.includes(userid) ? <Button variant="primary"
-                                onClick={() => unfollowUser()}>Send message
+        {state.followings.includes(userid) ? <Button variant="primary"><Link to = {'/messages/'+userid}><span style = {{color:'white'}}>Send message
+            </span>
+        </Link>
         </Button> : null}
                         </div>
                         <div className='profile-description'>
@@ -149,7 +147,6 @@ const Profile = () => {
                 <div className="gallery">
                     <CardColumns>
                         {data.posts.map(item => {
-                            console.log(item)
                             return (
                                 <Card>
                                     <Link to={`/post/${item._id}`} style={{ textDecoration: 'none', color: 'black' }}>

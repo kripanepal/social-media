@@ -1,12 +1,10 @@
 .grid-container {
   display: grid;
   grid-column-gap: 10px;
-  grid-template-columns: 25% 60%;
+  margin:20px
 }
 
-.grid-container>div {
-  text-align: center;
-}
+
 
 .self {
   text-align: right;
@@ -55,7 +53,31 @@ width: 100%;
   margin-top:10px;
   display: flex;
   flex-direction: column;
-  max-height: 80vh;
-  min-height: 78vh
+  max-height: 60vh;
+  min-height: 60vh;
 
+
+}
+.header {
+
+  border-bottom: 1px solid #EEE;
+  background-color: #ffffff;
+
+}
+.friendList
+{
+  text-align: center;
+  text-decoration: underline;
+  font-size: x-large;
+}
+
+.active
+{
+  background-color: rgb(241, 240, 229);
+}
+
+
+.sidebarDiv
+{
+  width: fit-content;
 }
