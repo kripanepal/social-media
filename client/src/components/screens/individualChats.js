@@ -5,7 +5,7 @@ import { Navbar, Nav, Card, FormControl, Button, Form } from "react-bootstrap";
 import "./messages.css";
 import Messages from "./messages";
 import ScrollToBottom from 'react-scroll-to-bottom';
-const ClickOutHandler = require("react-onclickout");
+import Spinners from './spinners'
 
 const IndividualChats = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -16,23 +16,28 @@ const IndividualChats = () => {
   const textRef = useRef();
   const { userid } = useParams();
 
+ 
+  
   useEffect(() => {
-
-    if (state) {
-      state.socket.on('message', function (data) {
-        var receivedText = data.message;
-        setMessages((pre) => {
-          const newMessage = {
-            date: Date.now(),
-            from: data.from,
-            to: data.to,
-            text: receivedText,
-          };
-          return [...pre, newMessage];
-        });
+    fetch("/generatenames", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        ids: userid,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setUserInfo(result[0]);
       });
-    }
+  }, [userid]
+  )
 
+
+  useEffect(() => {
     fetch("/fetchMessages", {
       method: "post",
       headers: {
@@ -51,11 +56,35 @@ const IndividualChats = () => {
           setMessages([]);
         }
       });
-  }, [userid, state]);
+  }, [state,userid]);
+
+  useEffect(()=>
+  {
+    if (state) {
+      state.socket.on('message', function (data) {
+        var receivedText = data.message;
+        setMessages((pre) => {
+          const newMessage = {
+            date: Date.now(),
+            from: data.from,
+            to: data.to,
+            text: receivedText,
+          };
+          return [...pre, newMessage];
+        });
+      });
+    }
+  },[state])
 
   const send = (e) => {
     const toSend = textRef.current.value;
     e.preventDefault();
+    if(!toSend||toSend ==='')
+    {
+      return
+
+    }
+  
     textRef.current.value = "";
     fetch("/savemessage", {
       method: "post",
@@ -77,29 +106,11 @@ const IndividualChats = () => {
       };
       return [...pre, newMessage];
     });
+    textRef.current.focus()
+
     state.socket.emit("message", { to: userid, message: toSend, from: state._id });
 
   };
-  useEffect(() => {
-
-
-    fetch("/generatenames", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({
-        ids: userid,
-      }),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        setUserInfo(result[0]);
-      });
-  }, [userid]
-  )
-
 
   
   const showMessages = () => {
@@ -131,14 +142,7 @@ const IndividualChats = () => {
 
     return (
       <>
-        <div class="header">                
-        <img src={userInfo.profilePictureUrl} width='60px' style={{ borderRadius: '50%' }} />
-        {" "}
-        <Link to = {'/profile/'+userid}>
-        {userInfo.name}
-        </Link>
-          </div>
-
+       
 
         <ScrollToBottom
         >
@@ -160,16 +164,16 @@ const IndividualChats = () => {
   };
 
   if (!state) {
-    return "loading";
+    return (<Spinners/>);
   }
 
   return (
     <>
 
     <div class="grid-container">
-      <div className = 'sidebarDiv'><Messages /></div>
+      <div className = 'sidebarDiv'><Messages userInfo={userInfo} /></div>
       
-      <div style = {{marginLeft:'10px'}}>{showMessages()}</div>
+      <div style = {{marginLeft:'10px', marginRight:'10px'}}>{showMessages()}</div>
     </div>
     </>
   );

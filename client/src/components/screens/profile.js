@@ -6,6 +6,8 @@ import { AiTwotoneEdit } from 'react-icons/ai'
 import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 import { FaComment } from 'react-icons/fa'
 import './profile.css'
+import Spinners from './spinners'
+
 const Profile = () => {
   const [data, setData] = useState({});
   const { state, dispatch } = useContext(UserContext)
@@ -98,7 +100,7 @@ const Profile = () => {
 
   if (loading) {
 
-    return (<div>Loading...</div>)
+    return (<Spinners/>)
   }
   else {
     return (

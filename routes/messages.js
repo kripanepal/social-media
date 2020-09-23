@@ -11,7 +11,6 @@ router.post("/savemessage", requireLogin, (req, res) => {
     const { toId, toSend } = req.body;
     const from = req.user;
     const to = toId
-    console.log(toSend)
     Messages.findOneAndUpdate({
         users: { $all: [from, to] }
     }, {
@@ -26,7 +25,6 @@ router.post("/savemessage", requireLogin, (req, res) => {
                 message.save()
                 .then(result=>
                     {
-                        console.log(result)
                     })
             }
 

@@ -3,6 +3,7 @@ import { UserContext } from "../../App";
 import { useParams, Redirect, Link } from 'react-router-dom'
 import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 import { FaComment } from 'react-icons/fa'
+import Spinners from './spinners'
 
 import { Card, CardColumns, Button } from "react-bootstrap";
 import './home.css'
@@ -185,7 +186,7 @@ const Profile = () => {
         );
     }
 
-    return (<div>loading</div>)
+    return (<Spinners/>)
 
 };
 

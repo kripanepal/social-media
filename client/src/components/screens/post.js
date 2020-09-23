@@ -8,6 +8,8 @@ import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 import { AiFillDelete } from 'react-icons/ai'
 import './home.css'
 import diff from '../dateCalculator'
+import Spinners from './spinners'
+
 const Home = () => {
     const [data, setData] = useState();
     const { state, dispatch } = useContext(UserContext)
@@ -104,7 +106,7 @@ const Home = () => {
 
 
     const deletePost = (id) => {
-        console.log('deleting')
+        setLoading(true)
         fetch(`/deletepost/${id}`, {
             method: "delete",
             headers: {
@@ -113,17 +115,18 @@ const Home = () => {
             }
         })
             .then(history.push('/'))
+            setLoading(false)
 
             .catch((err) => console.log(err));
     };
     if (loading) {
-        return (<div>Loading...</div>)
+        return (<Spinners/>)
     }
 
 
 
     if (!data || data.length === 0) {
-        return (<div>No posts</div>)
+        return (<div className = 'noposts'>No posts</div>)
     }
 
 

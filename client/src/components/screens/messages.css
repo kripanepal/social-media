@@ -37,6 +37,7 @@ font-size: x-large;
 
   border: aqua 2px solid;
   display: flex;
+  max-height: 40px;
   /* text-align: right; */
   /* flex-direction: row;
   justify-content: center;

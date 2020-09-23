@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Card, Button, Form, Toast } from 'react-bootstrap'
+import { Card, Button, Form, Toast, Spinner } from 'react-bootstrap'
 import { UserContext } from "../../App";
 import imagePlaceholder from '../imagePlaceHolder.jpg'
+import Spinners from './spinners'
 const CreatePost = (props) => {
   const history = useHistory();
   const [title, setTitle] = useState("");
@@ -46,13 +47,12 @@ const CreatePost = (props) => {
     ref.current = ref.current
   }, [url])
 
-const imageShow = () =>
-{
-  return image?URL.createObjectURL(image):imagePlaceholder
-}
+  const imageShow = () => {
+    return image ? URL.createObjectURL(image) : imagePlaceholder
+  }
   const showToast = () => {
     return (
-      <Toast onClose={() => { setError(false) }} autohide>
+      <Toast onClose={() => { setError(false);history.push('/') }} autohide>
         <Toast.Header className={hasError[0]}>
           <strong className="mr-auto">{hasError[0]}</strong>
         </Toast.Header>
@@ -61,22 +61,21 @@ const imageShow = () =>
   }
 
   const postDetails = () => {
-   
-    if(image)
-    {
+
+    if (image) {
       const filename = image.name
       const extFile = (filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename)
-  
+
       if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
         setShowLoading(true)
-  
+
       } else {
         setShowLoading(false)
         setImage()
         alert("Only jpg/jpeg and png files are allowed!");
         return
       }
-      
+
       const data = new FormData();
       data.append("file", image);
       data.append("upload_preset", "insta-clone");
@@ -91,88 +90,79 @@ const imageShow = () =>
         })
         .catch((err) => console.log(err));
     }
-else{
-  setUrl(null)
-}
+    else {
+      setUrl(null)
+    }
 
-    
+
   };
 
 
 
-  if (showLoading || hasError) {
+  if (hasError) {
     return (<>
-      {hasError ? showToast() : <div>please wait</div>}
+      {hasError ? showToast() : <Spinners/>}
 
     </>)
   }
-if(state)
-{
-  return (
+  if (state && !showLoading) {
+    return (
 
 
-    <div className="center " style={{ maxWidth: '600px', width: '90vw' }}>
-      {hasError ? showToast() : ""}
+      <div className="center " style={{ maxWidth: '600px', width: '90vw' }}>
+        {hasError ? showToast() : ""}
 
 
 
-      <Card.Text>
+        <Card.Text>
 
-        <Form>
-          <input type='file' id="exampleFormControlFile1" label="Add a picture: "
-            accept="image/*"
-            onChange={(e) => {
-              setImage(e.target.files[0]);
-            }}
-            ref={ref}
-            style={{ display: 'none' }}
-          />
-          <div className= 'flex-container' style = {{display:'flex', justifyContent:"space-evenly"}}>
-            <div>
-              <Link to = '/profile'>
-              <img src={state.profilePictureUrl} width={'50px'} style={{ borderRadius: '50%' }} />
-
-              </Link>
-
-            </div>
-            <div class="input-with-icon">
-              <input type="text" class="form-control" 
-              value={title} 
+          <Form>
+            <input type='file' id="exampleFormControlFile1" label="Add a picture: "
+              accept="image/*"
               onChange={(e) => {
-                setTitle(e.target.value);
+                setImage(e.target.files[0]);
               }}
-               />
-              <div class="btn btn-default icon" 
-              onClick={(e) => {
-                e.preventDefault()
-                  ; (ref.current.click())
-              }}>
-                <div class="glyphicon glyphicon-search">
-                  <img src = {imageShow()} width='40px'/>
+              ref={ref}
+              style={{ display: 'none' }}
+            />
+            <div className='flex-container' style={{ display: 'flex', justifyContent: "space-evenly" }}>
+              <div>
+                <Link to='/profile'>
+                  <img src={state.profilePictureUrl} width={'50px'} style={{ borderRadius: '50%' }} />
+
+                </Link>
+
+              </div>
+              <div class="input-with-icon">
+                <input type="text" class="form-control"
+                  value={title}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                  }}
+                />
+                <div class="btn btn-default icon"
+                  onClick={(e) => {
+                    e.preventDefault()
+                      ; (ref.current.click())
+                  }}>
+                  <div class="glyphicon glyphicon-search">
+                    <img src={imageShow()} width='40px' />
+                  </div>
                 </div>
               </div>
+              <span style={{ width: '10%' }}>
+                <Button variant="primary" onClick={() => postDetails()}>Post</Button>
+              </span>
+
             </div>
-            <span style={{ width: '10%' }}>
-              <Button variant="primary" onClick={() => postDetails()}>Post</Button>
-            </span>
-
-          </div>
-
-
-
-
-
-        </Form>
-      </Card.Text>
-
-
-
-    </div>
-
+          </Form>
+        </Card.Text>
+      </div>
+    )
+  }
+  return (
+    <Spinners/>
   )
-            }
-
-            return("loading")
 };
 
 export default CreatePost;

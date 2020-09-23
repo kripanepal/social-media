@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import ScrollToBottom from 'react-scroll-to-bottom';
+import Spinners from './spinners'
 
 import { UserContext } from "../../App";
 import { Link } from 'react-router-dom'
@@ -153,7 +154,7 @@ const Home = () => {
     if (data.length === 0 || !data) {
       return (<div className='center'>
         <Status fetchData={fetchData} />
-        <div >No posts</div></div>)
+        <div className = 'noposts'>No posts</div></div>)
     }
 
     const toReturn = (
@@ -297,7 +298,7 @@ const Home = () => {
     )
   }
 
-  return (<div>Loading...</div>)
+  return (<Spinners/>)
 
 };
 

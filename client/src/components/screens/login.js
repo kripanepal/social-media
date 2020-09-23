@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../../App";
 import { Card, Button, Form, Toast } from 'react-bootstrap'
+import Spinners from './spinners'
 
 const Login = () => {
   const { state, dispatch } = useContext(UserContext)
@@ -65,7 +66,7 @@ const Login = () => {
   }
   if (showLoading) {
     return (<>
-      <div>please wait...</div>
+      <Spinners/>
     </>)
   }
 

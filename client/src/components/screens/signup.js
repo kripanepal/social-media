@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Card, Form, Button,Toast } from "react-bootstrap";
+import Spinners from './spinners'
+
 const Signup = () => {
   const history = useHistory();
   const [name, setName] = useState("");
@@ -112,7 +114,7 @@ const Signup = () => {
   };
   if (showLoading) {
     return (<>
-      {hasError ? showToast() : "Loading..."}
+      {hasError ? showToast() : <Spinners/>}
     </>)
   }
 
