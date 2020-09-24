@@ -32,7 +32,7 @@ router.post('/createpost', requireLogin, (req, res) => {
 router.get('/allpost', requireLogin, (req, res) => {
     Post.find()
         .populate("postedBy", "_id name profilePictureUrl")
-        .populate('comments.postedBy', "_id name")
+        .populate('comments.postedBy', "_id name profilePictureUrl")
         .populate('likes', "_id name")
         .sort('-createdAt')
         .then(posts => {
@@ -104,6 +104,7 @@ router.put('/like', requireLogin, (req, res) => {
         }
     })
 })
+
 
 
 

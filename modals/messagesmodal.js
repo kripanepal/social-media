@@ -10,9 +10,11 @@ const messagesSchema = new mongoose.Schema(
                     to: { type: ObjectId, ref: "User" },
                     text: { type: String },
                     date:Date
-                },
+                }
 
-            ]
+            ],
+            readBy: [{type: ObjectId, ref: "User"}],
+
     }
 );
 

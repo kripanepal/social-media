@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { UserContext } from "../App";
 import { Link, useHistory, Redirect } from "react-router-dom";
-import { Navbar, Nav, Card, FormControl, Button, Form } from "react-bootstrap";
+import { Navbar, Nav, Card, FormControl, Button, Form,Modal } from "react-bootstrap";
 const ClickOutHandler = require("react-onclickout");
 
 const NavBar = () => {
   const { state, dispatch } = useContext(UserContext);
-  const [search, setSearch] = useState();
-  const [result, setResult] = useState([]);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);  const [result, setResult] = useState([]);
   const history = useHistory();
   const searchInput = useRef();
 
@@ -81,6 +82,32 @@ const NavBar = () => {
     });
   };
 
+  
+
+  const showModel = () =>
+  {
+
+    return (   <Modal show={show} onHide={handleClose} animation={true}>
+      <Modal.Header closeButton>
+        <Modal.Title>Log out</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>Do you want to log out?</Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={() => {
+          handleClose()
+              localStorage.clear();
+              dispatch({ type: "CLEAR" });
+              history.push("/login");
+            }}>
+          Yes
+        </Button>
+        <Button variant="primary" onClick={handleClose}>
+          No
+        </Button>
+      </Modal.Footer>
+    </Modal>)
+  }
+
   const renderList = () => {
     if (state) {
       return (
@@ -91,14 +118,12 @@ const NavBar = () => {
           <Nav.Link href="/createpost">Create a post</Nav.Link>
 
           <Nav.Link
-            onClick={() => {
-              localStorage.clear();
-              dispatch({ type: "CLEAR" });
-              history.push("/login");
-            }}
+           
             class="btn"
           >
-            Log out
+           <Button  onClick={handleShow} variant="danger">
+           Log out
+             </Button> 
           </Nav.Link>
         </>
       );
@@ -141,6 +166,7 @@ const NavBar = () => {
             setResult([])}}
       >{format()}</ClickOutHandler> 
         </div> : null}
+        {showModel()}
       </div>
     </>
   );

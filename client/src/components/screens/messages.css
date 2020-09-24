@@ -1,84 +1,47 @@
-.grid-container {
-  display: grid;
-  grid-column-gap: 10px;
-  margin:20px
-}
-
-
-
-.self {
-  text-align: right;
-}
-.other {
-  text-align: left;
-}
-.selfMessage {
-  background-color: rgb(105, 168, 226);
-  color: rgb(15, 15, 15);
-  border-radius: 25px;
-  padding-left: 10px;
-  padding-right: 10px;
-font-size: x-large;
-}
-
-
-.otherMessage {
-  background-color: rgb(193, 195, 197);
-  color: rgb(15, 15, 15);
-  border-radius: 25px;
-  padding-left: 10px;
-  padding-right: 10px;
-  width: 100%;
-  font-size: x-large;
-
-}
-
-.messageForm {
-
-  border: aqua 2px solid;
-  display: flex;
-  max-height: 40px;
-  /* text-align: right; */
-  /* flex-direction: row;
-  justify-content: center;
-  margin-top: auto; */
-}
-
-.messageInput
+.mainChat
 {
-width: 100%;
+    margin: 25px;
+    display: flex;
+    align-items: center;
+    color: black;
+    cursor: pointer;
+    max-width: 500px;
+    border-bottom: 2px solid green;
+    overflow: hidden;
+    
+  
+
 }
 
-.messageHolder
+
+
+
+.mainChat:hover
 {
-  margin-top:10px;
-  display: flex;
-  flex-direction: column;
-  max-height: 60vh;
-  min-height: 60vh;
-
+    color:black;
+    text-decoration: none;
+    background-color: rgb(212, 210, 205);
+    border-bottom: 2px solid red;
 
 }
-.header {
-
-  border-bottom: 1px solid #EEE;
-  background-color: #ffffff;
-
-}
-.friendList
+.chats
 {
-  text-align: center;
-  text-decoration: underline;
-  font-size: x-large;
+ 
+    margin-left: 40px;
+    margin-right: 25px;
+    
+ 
 }
 
-.active
+.unread
 {
-  background-color: rgb(241, 240, 229);
+    font-weight: bolder;
 }
 
-
-.sidebarDiv
+.messageOverView
 {
-  width: fit-content;
+    max-width: 400px;
+    display: flex;
+    align-items: left;
+    
 }

@@ -159,13 +159,13 @@ const Home = () => {
 
     const toReturn = (
 
-      data.map((each) => {
+      data.map((each,i) => {
 
         return (
           <>
 
 
-            <Card className="text-left cards" style={{ maxWidth: '600px', width: '90vw' }}>
+            <Card className="text-left cards" style={{ maxWidth: '600px', width: '90vw' }} key={i}>
               <Card.Body>
                 <Card.Title className='name' style={{ padding: '7px' }}>
                   <div >
@@ -208,9 +208,9 @@ const Home = () => {
                         {each.likes.length !== 0 ?
                           <OverlayTrigger delay={{ hide: 1000 }} overlay={
                             <Tooltip >
-                              {each.likes.map(nameOfPerson => {
+                              {each.likes.map((nameOfPerson,i) => {
                                 const url = '/profile/' + nameOfPerson._id
-                                return (<Link to={url}>
+                                return (<Link to={url} key={i}>
                                   <div>{nameOfPerson._id == state._id ? 'you' : nameOfPerson.name}</div>
                                 </Link>)
                               })}
@@ -254,7 +254,9 @@ const Home = () => {
                         {each.comments.map((comment, i) =>
                           <div key={comment._id}>
                             <span style={{ fontWeight: "500" }}>
-                              <Link to={'/profile/' + comment.postedBy._id}>{comment.postedBy.name + " "} </Link>
+                              <Link to={'/profile/' + comment.postedBy._id}><img width='25px' style = {{borderRadius:'50%'}}src = {comment.postedBy.profilePictureUrl}/>
+                               {comment.postedBy.name + " "} </Link>
+                             
                             </span>
                             <span> {comment.text}</span>
                           </div>
@@ -274,8 +276,6 @@ const Home = () => {
                         </Form.Group>
                       </Form>
                     </div>
-
-
                   </div>
                 </Card.Footer>
               </Card.Body>
@@ -284,12 +284,9 @@ const Home = () => {
             </Card>
 
           </>
-
         )
       })
-
     );
-
     return (
       <>
         <Status fetchData={fetchData} />

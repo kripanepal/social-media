@@ -174,9 +174,9 @@ const Home = () => {
                                         {data.likes.length !== 0 ?
                                             <OverlayTrigger delay={{ hide: 1000 }} overlay={
                                                 <Tooltip >
-                                                    {data.likes.map(nameOfPerson => {
+                                                    {data.likes.map((nameOfPerson ,i)=> {
                                                         const url = '/profile/' + nameOfPerson._id
-                                                        return (<Link to={url}>
+                                                        return (<Link to={url} key={i}>
                                                             <div>{nameOfPerson._id == state._id ? 'you' : nameOfPerson.name}</div>
                                                         </Link>)
                                                     })}

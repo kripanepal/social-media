@@ -13,6 +13,7 @@ const socketHandler =(io)=>
         }
       });
       socket.on("message", function (data) {
+        console.log(data)
         if (users[data.to]) {
           users[data.to].forEach(element => {
             socket.to(element).emit('message', { message: data.message, to: data.to, from: data.from })

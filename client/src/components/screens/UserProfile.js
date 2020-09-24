@@ -147,9 +147,9 @@ const Profile = () => {
                 </div>
                 <div className="gallery">
                     <CardColumns>
-                        {data.posts.map(item => {
+                        {data.posts.map((item,i) => {
                             return (
-                                <Card>
+                                <Card key={i}>
                                     <Link to={`/post/${item._id}`} style={{ textDecoration: 'none', color: 'black' }}>
                                         {item.picture ? <> <Card.Img variant="bottom"
                                             src={item.picture}

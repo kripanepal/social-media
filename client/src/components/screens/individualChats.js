@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import { UserContext } from "../../App";
 import { Link, useParams, useHistory, Redirect } from "react-router-dom";
 import { Navbar, Nav, Card, FormControl, Button, Form } from "react-bootstrap";
-import "./messages.css";
-import Messages from "./messages";
+import "./messageSideBar.css";
+import MessageSideBar from "./messageSideBar";
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Spinners from './spinners'
 
@@ -12,12 +12,14 @@ const IndividualChats = () => {
   const [userInfo, setUserInfo] = useState([]);
   const [messages, setMessages] = useState([]);
   const [focusedUser, setFocusedUser] = useState();
+  const [messageId, setMessageId] = useState();
+
   const history = useHistory();
   const textRef = useRef();
   const { userid } = useParams();
 
- 
-  
+
+
   useEffect(() => {
     fetch("/generatenames", {
       method: "post",
@@ -50,19 +52,22 @@ const IndividualChats = () => {
     })
       .then((res) => res.json())
       .then((result) => {
-        if (result.length !== 0) {
-          setMessages(result[0].user_messages);
+        console.log(result)
+
+        if (result) {
+          setMessageId(result._id)
+          setMessages(result.user_messages);
         } else {
           setMessages([]);
         }
       });
-  }, [state,userid]);
+  }, [state, userid]);
 
-  useEffect(()=>
-  {
+  useEffect(() => {
     if (state) {
       state.socket.on('message', function (data) {
         var receivedText = data.message;
+        if(data.to===userid)
         setMessages((pre) => {
           const newMessage = {
             date: Date.now(),
@@ -74,17 +79,16 @@ const IndividualChats = () => {
         });
       });
     }
-  },[state])
+  }, [state])
 
   const send = (e) => {
     const toSend = textRef.current.value;
     e.preventDefault();
-    if(!toSend||toSend ==='')
-    {
+    if (!toSend || toSend === '') {
       return
 
     }
-  
+
     textRef.current.value = "";
     fetch("/savemessage", {
       method: "post",
@@ -112,13 +116,13 @@ const IndividualChats = () => {
 
   };
 
-  
+
   const showMessages = () => {
     var texts = "";
     if (messages) {
-      texts = messages.map((each) => {
+      texts = messages.map((each,i) => {
         return (
-          <div>
+          <div key={i}>
 
             <div className={each.from === state._id ? "self" : "other"}>
               {each.from === state._id ?
@@ -142,7 +146,7 @@ const IndividualChats = () => {
 
     return (
       <>
-       
+
 
         <ScrollToBottom
         >
@@ -163,18 +167,33 @@ const IndividualChats = () => {
     );
   };
 
+  const markUnread = () => {
+    console.log('here')
+    fetch("/unread", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        id: messageId,
+      }),
+    })
+    history.push('/messages')
+  }
+
   if (!state) {
-    return (<Spinners/>);
+    return (<Spinners />);
   }
 
   return (
     <>
 
-    <div class="grid-container">
-      <div className = 'sidebarDiv'><Messages userInfo={userInfo} /></div>
-      
-      <div style = {{marginLeft:'10px', marginRight:'10px'}}>{showMessages()}</div>
-    </div>
+      <div class="grid-container">
+        <div className='sidebarDiv'><MessageSideBar userInfo={userInfo} markUnread={markUnread} /></div>
+
+        <div style={{ marginLeft: '10px', marginRight: '10px' }}>{showMessages()}</div>
+      </div>
     </>
   );
 };

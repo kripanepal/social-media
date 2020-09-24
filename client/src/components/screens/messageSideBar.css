@@ -1,0 +1,135 @@
+.grid-container {
+  display: grid;
+  grid-column-gap: 10px;
+  margin:20px
+}
+
+
+
+.self {
+  text-align: right;
+}
+.other {
+  text-align: left;
+}
+.selfMessage {
+  background-color: rgb(105, 168, 226);
+  color: rgb(15, 15, 15);
+  border-radius: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+font-size: x-large;
+}
+
+
+.otherMessage {
+  background-color: rgb(193, 195, 197);
+  color: rgb(15, 15, 15);
+  border-radius: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 100%;
+  font-size: x-large;
+
+}
+
+.messageForm {
+
+  border: aqua 2px solid;
+  display: flex;
+  max-height: 40px;
+  /* text-align: right; */
+  /* flex-direction: row;
+  justify-content: center;
+  margin-top: auto; */
+}
+
+.messageInput
+{
+width: 100%;
+}
+
+.messageHolder
+{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  max-height: 60vh;
+  min-height: 60vh;
+  max-width: 90vw;
+  overflow-x: scroll;
+
+
+}
+
+.messageHolder::-webkit-scrollbar {
+  display: none;
+}
+.header {
+
+  border-bottom: 1px solid #EEE;
+  background-color: #ffffff;
+
+}
+.friendList
+{
+  text-align: center;
+  text-decoration: underline;
+  font-size: x-large;
+}
+
+.active
+{
+  background-color: rgb(241, 240, 229);
+}
+
+
+.sidebarDiv
+{
+  width: fit-content;
+}
+.sidebar {
+  height: 65px;
+  display: flex;
+}
+
+.nav-menu {
+  background-color: #313235;
+  position: fixed;
+  height: 65%;
+  right: -100%;
+  transition: 850ms;
+}
+
+.nav-menu.active {
+  right: 0;
+  transition: 350ms;
+  z-index: 9999;
+}
+
+.nav-text {
+  list-style: none;
+}
+
+.navbar-toggle {
+  background-color: #060b26;
+}
+
+.sideMenu
+{
+align-self: center;
+position: fixed;
+right: 50px;
+}
+
+.nav-menu.active{
+  margin: 10px;
+}
+
+.markAsUnread
+{
+  color: rgb(244, 244, 250);
+  cursor: pointer;
+  margin: 20px;
+  border-bottom: 2px solid red;
+}
