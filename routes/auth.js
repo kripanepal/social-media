@@ -35,7 +35,7 @@ router.post('/resetpassword', (req, res) => {
                 from: "kripanepali20@gmail.com",
                 subject: "password reset for insta",
                 html: `
-                      <p>You requested for password reset</p>
+                      <span>You requested for password reset</span>
                       <h5>Click  <a href = "http://localhost:3000/reset/${token}">here </a> link to reset password</h5>
                       `
               }

@@ -3,7 +3,7 @@ import ScrollToBottom from 'react-scroll-to-bottom';
 import { useParams, useHistory } from 'react-router-dom'
 import { UserContext } from "../../App";
 import { Link } from 'react-router-dom'
-import { Card, Form, Toast, Tooltip, OverlayTrigger, Button } from 'react-bootstrap'
+import { Card, Form, Toast, Tooltip, OverlayTrigger } from 'react-bootstrap'
 import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 import { AiFillDelete } from 'react-icons/ai'
 import './home.css'
@@ -12,7 +12,7 @@ import Spinners from './spinners'
 
 const Home = () => {
     const [data, setData] = useState();
-    const { state, dispatch } = useContext(UserContext)
+    const { state } = useContext(UserContext)
     const [loading, setLoading] = useState(true);
     const [toast, setToast] = useState(false)
     const { postid } = useParams()
@@ -28,7 +28,7 @@ const Home = () => {
                 setData(result)
                 setLoading(false)
             })
-    }, [])
+    }, [postid])
 
     const showToast = () => {
         return (
@@ -143,7 +143,7 @@ const Home = () => {
                         <div >
 
                             <Link to={'/profile/' + data.postedBy._id} style={{ textDecoration: 'none', color: 'black' }}>
-                                <img className="profilePicMini" src={data.postedBy.profilePictureUrl}
+                                <img className="profilePicMini" src={data.postedBy.profilePictureUrl} alt = {'post'}
                                 /> {" "}{data.postedBy.name} </Link>
                             {
                                 data.postedBy._id === state._id ?
@@ -160,11 +160,11 @@ const Home = () => {
                  
                   </div>
                         </Card.Title>
-                        <Card.Text>
+                        
                             <h4>
                                 {data.title}
                             </h4>
-                        </Card.Text>
+                        
                         {data.picture ? <Card.Img variant="bottom" src={data.picture} /> : null}
 
                         <Card.Footer className='post_comments'>
@@ -177,7 +177,7 @@ const Home = () => {
                                                     {data.likes.map((nameOfPerson ,i)=> {
                                                         const url = '/profile/' + nameOfPerson._id
                                                         return (<Link to={url} key={i}>
-                                                            <div>{nameOfPerson._id == state._id ? 'you' : nameOfPerson.name}</div>
+                                                            <div>{nameOfPerson._id === state._id ? 'you' : nameOfPerson.name}</div>
                                                         </Link>)
                                                     })}
                                                 </Tooltip>}>

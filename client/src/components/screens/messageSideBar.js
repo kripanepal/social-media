@@ -1,24 +1,21 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
-import { Link, useHistory, Redirect } from "react-router-dom";
-import { Navbar, Nav, Card, FormControl, Button, Form } from "react-bootstrap";
+import { Link} from "react-router-dom";
+
 import "./messageSideBar.css";
 import Spinners from './spinners'
 
 import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
-import { IconContext } from 'react-icons';
+
 
 const MessageSideBar = (props) => {
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
   const [results, setResults] = useState([]);
-  const [chosen, setChosen] = useState([]);
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
   const hideSidebar = () => setSidebar(false);
   const ClickOutHandler = require("react-onclickout");
 
-  const divRef = useRef()
   useEffect(() => {
     if (!props.userInfo) {
       setSidebar(true)
@@ -41,7 +38,7 @@ const MessageSideBar = (props) => {
           setResults(result);
         });
     }
-  }, [state]);
+  }, [state,props.userInfo]);
 
 
 
@@ -50,7 +47,6 @@ const MessageSideBar = (props) => {
       return (
         <li key={index} className={'nav-text'}>
           <div key={each._id} style={{ marginBottom: '10px' }}
-            onClick={() => { setChosen(each._id) }}
           >
             <Link to={"/messages/" + each._id}>
 
@@ -85,9 +81,9 @@ const MessageSideBar = (props) => {
 
           <div className='sidebar'>
             <FaIcons.FaBars className='sideMenu' onClick={showSidebar} style={{ color: 'black' }} />
-            {props.userInfo ? <div class="header">
+            {props.userInfo ? <div className="header">
               <img src={props.userInfo.profilePictureUrl} width='60px'
-                style={{ borderRadius: '50%', marginLeft: '20px' }} />
+                style={{ borderRadius: '50%', marginLeft: '20px' }} alt ={'friend'} />
               {" "}
               <Link to={'/profile/'}>
                 <span style={{ marginRight: '10px' }}>

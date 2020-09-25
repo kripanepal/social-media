@@ -1,10 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
-import { UserContext } from "../../App";
 import { Card, Form, Button, Toast } from "react-bootstrap";
 
 const UpdatePassword = () => {
-  const { state, dispatch } = useContext(UserContext)
+
   const history = useHistory();
   const [password, setPassword] = useState("");
   const { token } = useParams()
@@ -52,7 +51,7 @@ const UpdatePassword = () => {
 
       <Card.Body>
         <Card.Title>Instagram</Card.Title>
-        <Card.Text>
+        
           <Form>
             <Form.Group controlId="formBasicEmail">
               <Form.Control type="password"
@@ -68,7 +67,7 @@ const UpdatePassword = () => {
           </Form>
 
 
-        </Card.Text>
+        
         <Button variant="primary" onClick={() => postData()}>Change password</Button>
         <Card.Footer >
           <div>

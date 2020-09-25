@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { UserContext } from "../../App";
-import { Link, useParams, useHistory, Redirect } from "react-router-dom";
-import { Navbar, Nav, Card, FormControl, Button, Form } from "react-bootstrap";
+import { useParams, useHistory } from "react-router-dom";
+import {  Button } from "react-bootstrap";
 import "./messageSideBar.css";
 import MessageSideBar from "./messageSideBar";
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Spinners from './spinners'
 
 const IndividualChats = () => {
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
   const [userInfo, setUserInfo] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [focusedUser, setFocusedUser] = useState();
+  const [focusedUser] = useState();
   const [messageId, setMessageId] = useState();
 
   const history = useHistory();
@@ -79,7 +79,7 @@ const IndividualChats = () => {
         });
       });
     }
-  }, [state])
+  }, [state,userid])
 
   const send = (e) => {
     const toSend = textRef.current.value;
@@ -127,7 +127,7 @@ const IndividualChats = () => {
             <div className={each.from === state._id ? "self" : "other"}>
               {each.from === state._id ?
                 null :
-                <img src={userInfo.profilePictureUrl} width='40px' style={{ borderRadius: '50%' }} />
+                <img src={userInfo.profilePictureUrl} alt = {'user'}width='40px' style={{ borderRadius: '50%' }} />
               }
               {' '}
               <span
@@ -189,7 +189,7 @@ const IndividualChats = () => {
   return (
     <>
 
-      <div class="grid-container">
+      <div className="grid-container">
         <div className='sidebarDiv'><MessageSideBar userInfo={userInfo} markUnread={markUnread} /></div>
 
         <div style={{ marginLeft: '10px', marginRight: '10px' }}>{showMessages()}</div>

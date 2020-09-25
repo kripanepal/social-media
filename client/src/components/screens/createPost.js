@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Card, Button, Form, Toast, Spinner } from 'react-bootstrap'
+import { Button, Form, Toast } from 'react-bootstrap'
 import { UserContext } from "../../App";
 import imagePlaceholder from '../imagePlaceHolder.jpg'
 import Spinners from './spinners'
@@ -11,12 +11,15 @@ const CreatePost = (props) => {
   const [url, setUrl] = useState();
   const [showLoading, setShowLoading] = useState(false)
   const [hasError, setError] = useState(false)
-  const { state, dispatch } = useContext(UserContext)
+  const { state } = useContext(UserContext)
   const ref = useRef();
+const fetchData = props.fetchData
 
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (url || title) {
-      console.log(url);
+
+      setShowLoading(true)
       fetch("/createpost", {
         method: "post",
         headers: {
@@ -34,7 +37,7 @@ const CreatePost = (props) => {
             setError(["Error", data.error])
           } else {
             setError(["Success", "Post uploaded"])
-            props.fetchData()
+            fetchData()
             setShowLoading(false)
             setImage()
             setTitle('')
@@ -44,7 +47,7 @@ const CreatePost = (props) => {
         .catch((err) => console.log(err));
     }
 
-    ref.current = ref.current
+// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url])
 
   const imageShow = () => {
@@ -52,7 +55,7 @@ const CreatePost = (props) => {
   }
   const showToast = () => {
     return (
-      <Toast onClose={() => { setError(false);history.push('/') }} autohide>
+      <Toast onClose={() => { setShowLoading(false); setError(false);history.push('/') }} autohide>
         <Toast.Header className={hasError[0]}>
           <strong className="mr-auto">{hasError[0]}</strong>
         </Toast.Header>
@@ -66,7 +69,7 @@ const CreatePost = (props) => {
       const filename = image.name
       const extFile = (filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename)
 
-      if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+      if (extFile === "jpg" || extFile === "jpeg" || extFile === "png") {
         setShowLoading(true)
 
       } else {
@@ -104,8 +107,15 @@ const CreatePost = (props) => {
       {hasError ? showToast() : <Spinners/>}
 
     </>)
+
+  
   }
-  if (state && !showLoading) {
+  if(showLoading)
+  {
+    console.log('ihasdfsad')
+    return(<Spinners/>)
+  }
+  if (state) {
     return (
 
 
@@ -114,7 +124,7 @@ const CreatePost = (props) => {
 
 
 
-        <Card.Text>
+        {showLoading?<Spinners/>:null}
 
           <Form>
             <input type='file' id="exampleFormControlFile1" label="Add a picture: "
@@ -128,25 +138,25 @@ const CreatePost = (props) => {
             <div className='flex-container' style={{ display: 'flex', justifyContent: "space-evenly" }}>
               <div>
                 <Link to='/profile'>
-                  <img src={state.profilePictureUrl} width={'50px'} style={{ borderRadius: '50%' }} />
+                  <img src={state.profilePictureUrl} width={'50px'} style={{ borderRadius: '50%' }}  alt ={'profile'} />
 
                 </Link>
 
               </div>
-              <div class="input-with-icon">
-                <input type="text" class="form-control"
+              <div className="input-with-icon">
+                <input type="text" className="form-control"
                   value={title}
                   onChange={(e) => {
                     setTitle(e.target.value);
                   }}
                 />
-                <div class="btn btn-default icon"
+                <div className="btn btn-default icon"
                   onClick={(e) => {
                     e.preventDefault()
                       ; (ref.current.click())
                   }}>
-                  <div class="glyphicon glyphicon-search">
-                    <img src={imageShow()} width='40px' />
+                  <div className="glyphicon glyphicon-search">
+                    <img src={imageShow()} width='40px'  alt ={'profile'}/>
                   </div>
                 </div>
               </div>
@@ -156,7 +166,7 @@ const CreatePost = (props) => {
 
             </div>
           </Form>
-        </Card.Text>
+        
       </div>
     )
   }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useCallback} from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Card, Form, Button,Toast } from "react-bootstrap";
 import Spinners from './spinners'
@@ -17,24 +17,13 @@ const Signup = () => {
     history.push('/')
   }
   const [showLoading, setShowLoading] = useState(false)
-
-  useEffect(() => {
-    if (profilePictureUrl) {
-      setShowLoading(true)
-      upload()
-    }
-
-
-  }, [profilePictureUrl])
-
-  const upload = () => {
+  const upload = useCallback(() => {
+    // eslint-disable-next-line
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       setError(["Error", "Invalid email address"])
+      setShowLoading(false)
       return;
     }
-
-
-
     fetch("/signup", {
       method: "post",
       headers: {
@@ -56,7 +45,15 @@ const Signup = () => {
         }
       })
       .catch((err) => console.log(err));
-  };
+  },[email,name,password,profilePictureUrl])
+// eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (profilePictureUrl) {
+      setShowLoading(true)
+      upload()
+    }
+  }, [profilePictureUrl,upload])
+
 
   const postData = () => {
   if(!name||!email||!password)
@@ -123,7 +120,7 @@ const Signup = () => {
             {hasError ? showToast() : ""}
       <Card.Body>
         <Card.Title>Instagram</Card.Title>
-        <Card.Text>
+        
           <Form>
             <Form.Group controlId="formBasicName">
               <Form.Control type="input" placeholder="Enter your name" value={name}
@@ -151,7 +148,7 @@ const Signup = () => {
                 }} />
             </Form.Group>
           </Form>
-        </Card.Text>
+        
         <Button variant="primary" onClick={() => postData()}>Register</Button>
         <Card.Footer >
           <Link to="/login">Already have an account?</Link>

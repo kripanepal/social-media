@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { UserContext } from "../App";
-import { Link, useHistory, Redirect } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Navbar, Nav, Card, FormControl, Button, Form,Modal } from "react-bootstrap";
 const ClickOutHandler = require("react-onclickout");
 
 const NavBar = () => {
+
   const { state, dispatch } = useContext(UserContext);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -30,7 +31,7 @@ const NavBar = () => {
         history.push("/login");
       }
     }
-  }, []);
+  }, [history,dispatch]);
 
   const handleSearch = (text) => {
     if (text&& text.length >= 2) {
@@ -119,7 +120,7 @@ const NavBar = () => {
 
           <Nav.Link
            
-            class="btn"
+            className="btn"
           >
            <Button  onClick={handleShow} variant="danger">
            Log out

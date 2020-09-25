@@ -9,7 +9,7 @@ export const reducer = (state, action) => {
         return null
     }
    
-        if(action.type=="UPDATE"){
+        if(action.type==="UPDATE"){
             console.log(action.payload)
             return {
                 ...state,
@@ -17,7 +17,7 @@ export const reducer = (state, action) => {
                 followings:action.payload.followings
             }
         }    
-        if(action.type=="SOCKET"){
+        if(action.type==="SOCKET"){
             return {
                 ...state,
                 socket:action.payload

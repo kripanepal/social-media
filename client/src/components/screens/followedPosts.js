@@ -5,12 +5,12 @@ import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 import Spinners from './spinners'
 import ScrollToBottom from 'react-scroll-to-bottom';
 import diff from '../dateCalculator'
-import { Card, Form, Toast, Tooltip, OverlayTrigger, Button, Spinner } from 'react-bootstrap'
+import { Card, Form, Tooltip, OverlayTrigger } from 'react-bootstrap'
 import './home.css'
 
 const Home = () => {
   const [data, setData] = useState();
-  const { state, dispatch } = useContext(UserContext)
+  const { state } = useContext(UserContext)
   const [loading, setLoading] = useState(true);
   const [showComments, setShowComments] = useState('totalComments')
 
@@ -46,7 +46,7 @@ const Home = () => {
       .then(result => {
         console.log(result)
         const newData = data.map(item => {
-          if (item._id == result._id) {
+          if (item._id === result._id) {
             return result
           } else {
             return item
@@ -72,7 +72,7 @@ const Home = () => {
       .then(result => {
         console.log(result)
         const newData = data.map(item => {
-          if (item._id == result._id) {
+          if (item._id === result._id) {
             return result
           } else {
             return item
@@ -98,7 +98,7 @@ const Home = () => {
       .then(result => {
         console.log(result)
         const newData = data.map(item => {
-          if (item._id == result._id) {
+          if (item._id === result._id) {
             return result
           } else {
             return item
@@ -112,29 +112,8 @@ const Home = () => {
 
 
 
-  const deletePost = (id) => {
-    console.log('deleting')
-    fetch(`/deletepost/${id}`, {
-      method: "delete",
-      headers: {
-
-        "Authorization": "Bearer " + localStorage.getItem("jwt")
-      }
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        const newData = data.filter(item => {
-
-          return (item._id !== result._id)
-        })
-
-        setData(newData)
-      })
-      .catch((err) => console.log(err));
-  };
-
   if (!loading) {
-    console.log(data)
+
     if (data.length === 0) {
       return (
         <>
@@ -161,7 +140,7 @@ const Home = () => {
                     <Card.Title className='name' style={{ padding: '7px' }}>
                       <div >
                         <Link to={'/profile/' + each.postedBy._id} style={{ textDecoration: 'none', color: 'black' }}>
-                          <img className="profilePicMini" src={each.postedBy.profilePictureUrl}
+                          <img  alt ={'post'}className="profilePicMini" src={each.postedBy.profilePictureUrl}
                           /> {" "}{each.postedBy.name} </Link>
 
                         <div className='time'>
@@ -175,12 +154,12 @@ const Home = () => {
                     </Card.Title>
                     <Link to={`/post/${each._id}`} style={{ cursor: 'default', textDecoration: 'none', color: 'black' }}>
 
-                      <Card.Text>
+                      
                         <h4>
                           {each.title}
                         </h4>
-                      </Card.Text>
-                      {each.picture ? <Card.Img variant="bottom" src={each.picture} /> : null}
+                      
+                      {each.picture ? <Card.Img variant="bottom" src={each.picture} alt={'post'}/> : null}
 
 
                     </Link>
@@ -195,7 +174,7 @@ const Home = () => {
                                 {each.likes.map((nameOfPerson,i) => {
                                   const url = '/profile/' + nameOfPerson._id
                                   return (<Link to={url} key={i}>
-                                    <div>{nameOfPerson._id == state._id ? 'you' : nameOfPerson.name}</div>
+                                    <div>{nameOfPerson._id === state._id ? 'you' : nameOfPerson.name}</div>
                                   </Link>)
                                 })}
                               </Tooltip>}>
@@ -237,7 +216,7 @@ const Home = () => {
                             {each.comments.map((comment, i) =>
                               <div key={comment._id}>
                                 <span style={{ fontWeight: "500" }}>
-                                <Link to={'/profile/' + comment.postedBy._id}><img width='25px' style = {{borderRadius:'50%'}}src = {comment.postedBy.profilePictureUrl}/>
+                                <Link to={'/profile/' + comment.postedBy._id}><img width='25px' style = {{borderRadius:'50%'}}src = {comment.postedBy.profilePictureUrl} alt ={'profile'}/>
                                {comment.postedBy.name + " "} </Link>
                                 
                                 </span>

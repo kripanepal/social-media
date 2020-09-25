@@ -2,14 +2,12 @@ import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../../App";
 import { Card, Button, Form, Toast } from 'react-bootstrap'
-import Spinners from './spinners'
 
 const Login = () => {
-  const { state, dispatch } = useContext(UserContext)
+  const {  dispatch } = useContext(UserContext)
   const history = useHistory();
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [showLoading, setShowLoading] = useState(false)
   const [hasError, setError] = useState(false)
 
   const user = JSON.parse(localStorage.getItem('user'))
@@ -18,7 +16,9 @@ const Login = () => {
   }
   const postData = () => {
 
-    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+    if (
+      // eslint-disable-next-line
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       console.log('here')
       setError(["Error", "Invalid email address"])
       return
@@ -64,11 +64,6 @@ const Login = () => {
         <Toast.Body>{hasError[1]}</Toast.Body>
       </Toast>)
   }
-  if (showLoading) {
-    return (<>
-      <Spinners/>
-    </>)
-  }
 
 
 
@@ -78,7 +73,7 @@ const Login = () => {
       <Card className="text-center cards" style={{ maxWidth: '600px', width: '90vw' }}>
         <Card.Body>
           <Card.Title>Instagram</Card.Title>
-          <Card.Text>
+   
             <Form>
               <Form.Group controlId="formBasicEmail">
                 <Form.Control type="email" placeholder="Enter email" value={email}
@@ -99,7 +94,7 @@ const Login = () => {
             </Form>
 
 
-          </Card.Text>
+
           <Button variant="primary" onClick={() => postData()}>Login</Button>
           <Card.Footer >
             <div style={{ marginBottom: '5px' }}>

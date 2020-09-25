@@ -57,6 +57,8 @@ function diff( startDate) {
       case 5:
         time = "s";
         break;
+        default:
+          time = "N/A"
     }
     return difference[index] + time
 

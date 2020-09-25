@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Card, Form, Button, Toast } from "react-bootstrap";
 
@@ -12,7 +12,7 @@ const Reset = () => {
     history.push('/')
   }
   const postData = () => {
-    console.log(email);
+ // eslint-disable-next-line
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       setError(["Error", "Invalid email address"])
       return;
@@ -42,7 +42,7 @@ const Reset = () => {
   const showToast = () => {
     return (
       <Toast onClose={() => {
-        setError(false); history.push('/login')
+        setError(false); if(hasError[0]!=='Error'){history.push('/login')}
       }} delay={3000} autohide>
           <Toast.Header className= {hasError[0]}>
                   <strong className="mr-auto">{hasError[0]}</strong>
@@ -56,7 +56,7 @@ const Reset = () => {
       <Card className="text-center cards" style={{ maxWidth: '600px', width: '90vw' }}>
         <Card.Body>
           <Card.Title>Instagram</Card.Title>
-          <Card.Text>
+         
             <Form>
               <Form.Group controlId="formBasicEmail">
                 <Form.Control type="email" placeholder="Enter email"
@@ -71,7 +71,7 @@ const Reset = () => {
             </Form>
 
 
-          </Card.Text>
+    
           <Button variant="primary" onClick={() => postData()}>Send an email</Button>
           <Card.Footer >
             <div>

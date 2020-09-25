@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import { Link} from "react-router-dom";
 import "./messageSideBar.css";
@@ -7,8 +7,8 @@ import './messages.css'
 import MessageSideBar from "./messageSideBar";
 
 
-const Messages = (props) => {
-    const { state, dispatch } = useContext(UserContext);
+const Messages = () => {
+    const { state } = useContext(UserContext);
     const [results, setResults] = useState([]);
 
 
@@ -16,7 +16,6 @@ const Messages = (props) => {
     useEffect(() => {
 
         if (state) {
-            const followings = state.followings;
             fetch("/fetchinbox", {
                 method: "get",
                 headers: {
@@ -35,7 +34,7 @@ const Messages = (props) => {
         return <div>
             <div>
 
-                <img src={state.profilePictureUrl} width='50px' style={{ borderRadius: '50%' }} />
+                <img src={state.profilePictureUrl} width='50px' style={{ borderRadius: '50%' }} alt ={'message receiver'} />
                 Chats
             </div>
         </div>
@@ -43,7 +42,7 @@ const Messages = (props) => {
 
     const showDate = (date) => {
         const tempDate = new Date(date)
-        if (tempDate.setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0)) {
+        if (tempDate.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0)) {
             return (date.getHours() + ':' + date.getMinutes())
 
         }
@@ -72,7 +71,7 @@ const Messages = (props) => {
 
                 <Link to={"/messages/" + otherUser._id} className='mainChat' key={i}>
                     <div>
-                        <img src={messageSentBy.profilePictureUrl} width='50px' style={{ borderRadius: '50%' }} />
+                        <img src={messageSentBy.profilePictureUrl} width='50px' style={{ borderRadius: '50%' }}  alt ={'message receiver'}/>
                     </div>
                     <div style={{ marginLeft: '10px' }} className={read} >
                         <div style={{

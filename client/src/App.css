@@ -46,10 +46,9 @@ right: 50px;
     width: 100vw;
     position: fixed;
     z-index: 99;
-
-    align-items: end;
+    align-items: flex-end;
     display: flex;
-    justify-content: end;
+    justify-content:flex-end;
 }
 .loader
 {
@@ -58,6 +57,7 @@ right: 50px;
   left: 50%;
   margin-top: -50px;
   margin-left: -100px;
+  z-index: 999;
 }
 
 .noposts

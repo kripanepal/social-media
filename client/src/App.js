@@ -17,9 +17,8 @@ import { initialState, reducer } from "./reducers/userReducer";
 import {
   BrowserRouter,
   Route,
-  useHistory,
   Switch,
-  Link,
+
 } from "react-router-dom";
 import io from "socket.io-client";
 
@@ -27,9 +26,7 @@ const ENDPOINT = "localhost:5000";
 export const UserContext = createContext();
 
 const Routing = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const history = useHistory();
 
   return (
     <Switch>
@@ -39,7 +36,7 @@ const Routing = () => {
       <Route path="/signup">
         <Signup />
       </Route>
-      <Route path="/login">
+      <Route exact  path="/login">
         <Login />
       </Route>
       <Route exact path="/profile">
@@ -73,12 +70,13 @@ const Routing = () => {
   );
 };
 function App() {
+ 
   const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     //var socket = io.connect(window.location.hostname);
     var socket = io(ENDPOINT);
     dispatch({ type: "SOCKET", payload: socket });
-  }, [ENDPOINT]);
+  }, []);
 if(state&&state.socket)
 {
   state.socket.emit('register',{sender:state._id})

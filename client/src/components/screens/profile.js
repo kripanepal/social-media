@@ -3,7 +3,7 @@ import { UserContext } from "../../App";
 import { useHistory, Link } from 'react-router-dom'
 import { Card, CardColumns, Toast } from "react-bootstrap";
 import { AiTwotoneEdit } from 'react-icons/ai'
-import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
+import { FcLike } from 'react-icons/fc';
 import { FaComment } from 'react-icons/fa'
 import './profile.css'
 import Spinners from './spinners'
@@ -32,7 +32,7 @@ const Profile = () => {
     const filename = image.name
     const extFile = (filename.substring(filename.lastIndexOf('.') + 1, filename.length) || filename)
 
-    if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+    if (extFile === "jpg" || extFile === "jpeg" || extFile === "png") {
       setLoading(true)
 
     } else {
@@ -109,15 +109,14 @@ const Profile = () => {
 
         <div>
           <div className='profile'>
-            <div class="profile-pic">
+            <div className="profile-pic">
               <img
                 style={{ width: "160px", height: "160px", borderRadius: "80px" }}
-                src={data.user.profilePictureUrl}
+                src={data.user.profilePictureUrl} alt ={"profile"}
               />
               <label className="edit">
                 <AiTwotoneEdit />
                 <input type="file" style={{ display: 'none' }}
-                  type="file"
                   onChange={(e) => {
                     generateLink(e.target.files[0]);
 
@@ -128,9 +127,9 @@ const Profile = () => {
             <div className='profile-description'>
               <div>{data ? data.user.name : "loading"}
               </div>
-              <p>
+              <span>
                 {data ? data.user.email : "loading"}
-              </p>
+              </span>
               <div
                 style={{
 

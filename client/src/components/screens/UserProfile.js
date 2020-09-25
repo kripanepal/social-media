@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../App";
 import { useParams, Redirect, Link } from 'react-router-dom'
-import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
+import { FcLike } from 'react-icons/fc';
 import { FaComment } from 'react-icons/fa'
 import Spinners from './spinners'
 
@@ -12,8 +12,6 @@ const Profile = () => {
     const [data, setData] = useState(null);
     const { state, dispatch } = useContext(UserContext)
     const { userid } = useParams()
-    const [showFollow, setShowFollow] = useState(true)
-    const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
@@ -25,14 +23,14 @@ const Profile = () => {
         }).then(res => res.json())
             .then(result => {
                 setData(result)
-                setLoading(false)
+               
 
             })
     }, [userid])
 
 
     const followUser = () => {
-        setLoading(true)
+    
         fetch('/follow', {
             method: "put",
             headers: {
@@ -56,8 +54,7 @@ const Profile = () => {
                     }
                 })
                 console.log('done')
-                setShowFollow(false)
-                setLoading(false)
+   
             })
     }
     const unfollowUser = () => {
@@ -77,7 +74,7 @@ const Profile = () => {
                 localStorage.setItem("user", JSON.stringify(result))
 
                 setData((prevState) => {
-                    const newFollower = prevState.user.followers.filter(item => item != result._id)
+                    const newFollower = prevState.user.followers.filter(item => item !== result._id)
                     return {
                         ...prevState,
                         user: {
@@ -87,7 +84,6 @@ const Profile = () => {
                     }
                 })
                 console.log('doner')
-                setShowFollow(true)
 
             })
     }
@@ -107,10 +103,10 @@ const Profile = () => {
 
                 <div>
                     <div className='profile'>
-                        <div class="profile-pic">
+                        <div className="profile-pic">
                             <img
                                 style={{ width: "160px", height: "160px", borderRadius: "80px" }}
-                                src={data.user.profilePictureUrl}
+                                src={data.user.profilePictureUrl} alt = {"profile"}
                             />
                             {state.followings.includes(userid) ? <Button variant="danger"
                                 onClick={() => unfollowUser()}>Unfollow
@@ -128,9 +124,9 @@ const Profile = () => {
                         <div className='profile-description'>
                             <div>{data ? data.user.name : "loading"}
                             </div>
-                            <p>
+                            <span>
                                 {data ? data.user.email : "loading"}
-                            </p>
+                            </span>
                             <div
                                 style={{
 

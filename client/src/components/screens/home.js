@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Spinners from './spinners'
 
 import { UserContext } from "../../App";
 import { Link } from 'react-router-dom'
-import { Card, Form, Toast, Tooltip, OverlayTrigger, Button } from 'react-bootstrap'
+import { Card, Form, Toast, Tooltip, OverlayTrigger } from 'react-bootstrap'
 import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 import { AiFillDelete } from 'react-icons/ai'
 import './home.css'
@@ -14,7 +14,7 @@ import diff from '../dateCalculator'
 
 const Home = () => {
   const [data, setData] = useState();
-  const { state, dispatch } = useContext(UserContext)
+  const { state } = useContext(UserContext)
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState(false)
   const [showComments, setShowComments] = useState('totalComments')
@@ -22,7 +22,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchData()
-  }, [])
+  },[] )
 
   const fetchData = () => {
     fetch('/allpost', {
@@ -65,16 +65,16 @@ const Home = () => {
       .then(res => res.json())
       .then(result => {
 
-        const newData = data.map(item => {
-          if (item._id == result._id) {
+        const newData = data.map((item,i) => {
+       
+          if (item._id === result._id) {
             return result
           } else {
             return item
           }
         })
         setData(newData)
-      }).catch(err => {
-      })
+      }).catch()
   };
 
   const unlikePost = (id) => {
@@ -91,7 +91,7 @@ const Home = () => {
     }).then(res => res.json())
       .then(result => {
         const newData = data.map(item => {
-          if (item._id == result._id) {
+          if (item._id === result._id) {
             return result
           } else {
             return item
@@ -115,7 +115,7 @@ const Home = () => {
     }).then(res => res.json())
       .then(result => {
         const newData = data.map(item => {
-          if (item._id == result._id) {
+          if (item._id === result._id) {
             return result
           } else {
             return item
@@ -162,7 +162,7 @@ const Home = () => {
       data.map((each,i) => {
 
         return (
-          <>
+          <div key = {i}>
 
 
             <Card className="text-left cards" style={{ maxWidth: '600px', width: '90vw' }} key={i}>
@@ -170,7 +170,7 @@ const Home = () => {
                 <Card.Title className='name' style={{ padding: '7px' }}>
                   <div >
                   <Link to={'/profile/' + each.postedBy._id} style={{ textDecoration: 'none', color: 'black' }}>
-                    <img className="profilePicMini" src={each.postedBy.profilePictureUrl}
+                    <img className="profilePicMini" src={each.postedBy.profilePictureUrl} alt = {'own'}
                     /> {" "}{each.postedBy.name} </Link>
                                       {
                     each.postedBy._id === state._id ?
@@ -190,11 +190,11 @@ const Home = () => {
 
                 </Card.Title>
                 <Link to={`/post/${each._id}`} style={{ cursor: 'default', textDecoration: 'none', color: 'black' }}>
-                  <Card.Text>
+                  
                     <h4>
                       {each.title}
                     </h4>
-                  </Card.Text>
+                  
 
                   {each.picture ? <Card.Img variant="bottom" src={each.picture} /> : null}
 
@@ -211,7 +211,7 @@ const Home = () => {
                               {each.likes.map((nameOfPerson,i) => {
                                 const url = '/profile/' + nameOfPerson._id
                                 return (<Link to={url} key={i}>
-                                  <div>{nameOfPerson._id == state._id ? 'you' : nameOfPerson.name}</div>
+                                  <div>{nameOfPerson._id === state._id ? 'you' : nameOfPerson.name}</div>
                                 </Link>)
                               })}
                             </Tooltip>}>
@@ -251,10 +251,10 @@ const Home = () => {
                     <div className={showComments}>
                       <ScrollToBottom className="comments"
                       >
-                        {each.comments.map((comment, i) =>
+                        {each.comments.map((comment) =>
                           <div key={comment._id}>
                             <span style={{ fontWeight: "500" }}>
-                              <Link to={'/profile/' + comment.postedBy._id}><img width='25px' style = {{borderRadius:'50%'}}src = {comment.postedBy.profilePictureUrl}/>
+                              <Link to={'/profile/' + comment.postedBy._id}><img width='25px' style = {{borderRadius:'50%'}}src = {comment.postedBy.profilePictureUrl} alt ={'post'}/>
                                {comment.postedBy.name + " "} </Link>
                              
                             </span>
@@ -283,7 +283,7 @@ const Home = () => {
               </span>
             </Card>
 
-          </>
+          </div>
         )
       })
     );
