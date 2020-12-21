@@ -108,7 +108,7 @@ router.post("/signup", (req, res) => {
                 to: user.email,
                 from: 'kripanepali20@gmail.com',
                 subject: "Signup success",
-                html: "<h1>Welcome to something useless<h1>"
+                html: "<h1>Welcome to something <h1>"
               })
 
                 .catch((err) => {
